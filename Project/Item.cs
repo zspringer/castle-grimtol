@@ -7,6 +7,7 @@ namespace CastleGrimtol.Project
         // public int Inventory {get; set;}
         public string Name {get; set;}
         public string Description {get; set;}
+        public bool Flag {get; set;}
 
         // public List<string, Item> Items {get; set;}
 
@@ -23,11 +24,12 @@ namespace CastleGrimtol.Project
 
 
         // public Item(string name, string description,int inventory)
-        public Item(string name, string description)
+        public Item(string name, string description, bool Flag)
         {
             // Inventory = inventory;
             Name = name;
             Description = description;
+            Flag = false;
             // Items = new List<string, Item>();
         }
 
