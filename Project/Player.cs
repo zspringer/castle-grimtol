@@ -12,13 +12,25 @@ namespace CastleGrimtol.Project
         public void addItem(Item item)
         {
             // Menu.Add(item);
+            int oldCount = Inventory.Count;
+            Inventory.Add(item);
+            int newCount = Inventory.Count;
+            if (newCount - oldCount > 0)
+            {
+                System.Console.WriteLine($"{item.Name} was added to your inventory");
+            }
+            else
+            {
+                System.Console.WriteLine("You dropped it you idiot.");
+            }
         }
 
 
-        public Player(int score)
+        public Player()
         {
             Name = "The Dude";
-            Score = score;
+            // Score = score;
+            Score = 0;
             Inventory = new List<Item>();
         }
 

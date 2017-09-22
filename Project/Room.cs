@@ -11,6 +11,11 @@ namespace CastleGrimtol.Project
         //TODO: May need to move exits
         public Dictionary<string, Room> Exits {get; set;}
 
+        public void addItem(Item item)
+        {
+            Items.Add(item);
+        }
+
 
         public void UseItem(Item item)
         {
@@ -19,7 +24,7 @@ namespace CastleGrimtol.Project
         public Room(string name, string description)
         {
             Name = name;
-            Description = Description;
+            Description = description;
             Items = new List<Item>();
             Exits = new Dictionary<string, Room>();
 

@@ -11,7 +11,7 @@ namespace CastleGrimtol
             bool playing = true;
             Game MyGame = new Game();
             MyGame.Setup();
-            Console.Clear();
+            // Console.Clear();
             while (playing)
             {
                 MyGame.UserResponse();

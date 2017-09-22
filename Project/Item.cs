@@ -8,7 +8,7 @@ namespace CastleGrimtol.Project
         public string Name {get; set;}
         public string Description {get; set;}
 
-        public Dictionary<string, Item> Items {get; set;}
+        // public List<string, Item> Items {get; set;}
 
         // public bool addItem(Item item)
         // {
@@ -28,7 +28,7 @@ namespace CastleGrimtol.Project
             // Inventory = inventory;
             Name = name;
             Description = description;
-            Items = new Dictionary<string, Item>();
+            // Items = new List<string, Item>();
         }
 
     }
