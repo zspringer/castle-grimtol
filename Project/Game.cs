@@ -57,7 +57,8 @@ namespace CastleGrimtol.Project
                     Environment.Exit(0);
                     break;
                 default:
-                    System.Console.WriteLine("You did not choose a valid option");
+                    System.Console.WriteLine("You tried to wreck this game and have now paid the price.  You are dead.");
+                    Death();
                     break;
             }
         }
@@ -116,13 +117,13 @@ namespace CastleGrimtol.Project
             {
                 CurrentRoom = CurrentRoom.Exits[UserChoice];
             }
-            else
-            {
+            // else
+            // {
 
-                System.Console.WriteLine("You have fallen off the map and now you are dead");
-                Environment.Exit(0);
+            //     System.Console.WriteLine("You have fallen off the map and now you are dead");
+            //     Environment.Exit(0);
 
-            }
+            // }
             // System.Console.WriteLine($"You are now in the {CurrentRoom.Name}");
             System.Console.WriteLine($"You have now moved to the {CurrentRoom.Name}.  {CurrentRoom.Description}");
             if(CurrentRoom.Name == "End Room")
@@ -141,10 +142,16 @@ namespace CastleGrimtol.Project
             {
                 CurrentRoom = CurrentRoom.Exits[UserChoice];
             }
-            else if(!won)
+            else if(CurrentRoom.Name == "Captain Room" && !won)
             {
                 System.Console.WriteLine("You cannot go because you have not unlocked the lock");
             }
+        }
+
+        public void Death()
+        {
+                // System.Console.WriteLine("You have fallen off the map and now you are dead");
+                Environment.Exit(0);
         }
 
 
@@ -173,7 +180,7 @@ namespace CastleGrimtol.Project
                 System.Console.WriteLine(CurrentRoom.Items.Count);
                 for (int x = 0; x < CurrentRoom.Items.Count; x++)
                 {
-                    System.Console.WriteLine("I am in the loop");
+                    // System.Console.WriteLine("I am in the loop");
                     if (CurrentPlayer.Inventory[x].Name == itemName)
                     {
                         System.Console.WriteLine("You have unlocked the lock and can now proceed to the next room");
