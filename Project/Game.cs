@@ -9,17 +9,8 @@ namespace CastleGrimtol.Project
         public Player CurrentPlayer { get; set; }
         //Should I set the bool here?
         // public bool Playing {get; set;}  Maybe set the bool up here instead of on program?
-            bool won = false;
+        bool won = false;
 
-        public void Reset()
-        {
-            //See about setting the bool here instead of on program so that you can flip it here
-            // Playing = false;
-            //Would clear the console and then run setup again
-            // Console.Clear();
-            // Setup();
-
-        }
 
         public void GameGuide()
         {
@@ -62,7 +53,6 @@ namespace CastleGrimtol.Project
                     break;
             }
         }
-
         public void Setup()
         {
             //Use the constructor function to build the rooms
@@ -113,7 +103,9 @@ namespace CastleGrimtol.Project
         //How to move from room to room
         public void Go(string UserChoice)
         {
-            if (CurrentRoom.Exits[UserChoice] != null)
+            //ContainsKey checks the room dictionary to see if that room even has an exit so as to elminate a player from going E or W when
+            //That room doesn't have one of those exits
+            if (CurrentRoom.Exits.ContainsKey(UserChoice) && (CurrentRoom.Name != "Captain Room" || UserChoice == "W"))
             {
                 CurrentRoom = CurrentRoom.Exits[UserChoice];
             }
@@ -125,11 +117,6 @@ namespace CastleGrimtol.Project
 
             // }
             // System.Console.WriteLine($"You are now in the {CurrentRoom.Name}");
-            System.Console.WriteLine($"You have now moved to the {CurrentRoom.Name}.  {CurrentRoom.Description}");
-            if(CurrentRoom.Name == "End Room")
-            {
-                won = true;
-            }
             // if (CurrentRoom.Items[0] != null)
             if (CurrentRoom.Items.Count > 0)
             {
@@ -142,16 +129,41 @@ namespace CastleGrimtol.Project
             {
                 CurrentRoom = CurrentRoom.Exits[UserChoice];
             }
-            else if(CurrentRoom.Name == "Captain Room" && !won)
+            if(CurrentRoom.Name == "Captain Room" && won == false)
             {
-                System.Console.WriteLine("You cannot go because you have not unlocked the lock");
+                System.Console.WriteLine("You cannot go because you have not unlocked the lock.");
+                // CurrentRoom = Captain;
             }
+            System.Console.WriteLine($"You have now moved to the {CurrentRoom.Name}.  {CurrentRoom.Description}");
+            if(CurrentRoom.Name == "End Room")
+            {
+                won = true;
+                Program.playing = false;
+
+            }
+            PlayerScore();
+        }
+        public void Reset()
+        {
+            // See about setting the bool here instead of on program so that you can flip it here
+            // Playing = false;
+            // Would clear the console and then run setup again
+            // Console.Clear();
+            // Setup();
+
+        }
+
+        public void PlayerScore()
+        {
+            System.Console.ForegroundColor = ConsoleColor.Yellow;
+            System.Console.WriteLine($"Current Score:{CurrentPlayer.Score}");
         }
 
         public void Death()
         {
                 // System.Console.WriteLine("You have fallen off the map and now you are dead");
-                Environment.Exit(0);
+                Program.playing = false;
+                // Environment.Exit(0);
         }
 
 
@@ -165,6 +177,8 @@ namespace CastleGrimtol.Project
                 if (CurrentRoom.Items[x].Name == ItemName)
                 {
                     CurrentPlayer.addItem(CurrentRoom.Items[x]);
+                    CurrentPlayer.Score += 50;
+                    System.Console.WriteLine("You just gained 50pts for picking up the key");
                     // System.Console.WriteLine($"You have {CurrentPlayer.Inventory[0].Name} in your inventory");
                     CurrentRoom.Items.Remove(CurrentRoom.Items[x]);
                 }
@@ -175,22 +189,25 @@ namespace CastleGrimtol.Project
         {
             // itemName.Split
             // System.Console.WriteLine("I am in UseItem");
-            if (CurrentRoom.Name == "Captain Room")
+            if (CurrentRoom.Name == "Captain Room" && CurrentPlayer.Inventory.Count > 0)
             {
-                System.Console.WriteLine(CurrentRoom.Items.Count);
-                for (int x = 0; x < CurrentRoom.Items.Count; x++)
+                // System.Console.WriteLine(CurrentRoom.Items.Count);
+                // for (int x = 0; x < CurrentRoom.Items.Count; x++)
+                for (int x = 0; x < CurrentPlayer.Inventory.Count; x++)
                 {
-                    // System.Console.WriteLine("I am in the loop");
+                    // System.Console.WriteLine(x);
                     if (CurrentPlayer.Inventory[x].Name == itemName)
                     {
                         System.Console.WriteLine("You have unlocked the lock and can now proceed to the next room");
+                        CurrentPlayer.Score = CurrentPlayer.Score + 50;
+                        System.Console.WriteLine("You just gained 50pts for using the key");
                         CurrentRoom.Items[x].Flag = true;
                     }
                 }
             }
             else
             {
-                System.Console.WriteLine("You need to use the KEY dummy!");
+                System.Console.WriteLine("Either you do not have the key or you are in the wrong room to use the key.  You figure it out!");
             }
         }
     }
